@@ -9,8 +9,8 @@ OMP_SRC = $(wildcard src/omp/*.c)
 OMP = $(patsubst src/omp/%.c, bin/%_omp, $(OMP_SRC))
 MPI_SRC = $(wildcard src/mpi/*.c)
 MPI = $(patsubst src/mpi/%.c, bin/%_mpi, $(MPI_SRC))
-CL_SRC = $(wildcard src/cl/*.c)
-CL = $(patsubst src/cl/%.c, bin/%_cl, $(CL_SRC))
+CL_SRC = $(wildcard src/opencl/*.c)
+CL = $(patsubst src/opencl/%.c, bin/%_cl, $(CL_SRC))
 
 .PHONY: all seq omp mpi cl clean
 
@@ -38,7 +38,7 @@ bin/%_cl: src/opencl/%.c bin/simple.o
 	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 $^ -o $@ -lOpenCL
 
 bin/simple.o: src/simple.c src/simple.h
-	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 -c $< -o $@ -lOpenCL 
+	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 -c $< -o $@ -lOpenCL
 
 clean:
 	$(RM) bin/* mpi_hello_* *.out
