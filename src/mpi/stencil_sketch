@@ -1,0 +1,21 @@
+MASTER
+
+for i in range(iterations)
+    for each vector element v in V with index i
+
+    // add logic for boundary checking
+    send V[i-1] to node c+1
+    send V[i] to node c+1
+    send V[i+1] to node c+1
+
+    receive V[i] from node c+1
+__________________________________________________________________________________
+
+WORKER
+
+receive V[i-1] from node 0
+receive V[i] from node 0
+receive V[i+1] from node 0
+
+result = computeIteration(V[i-1],V[i],V[i+1])
+send result to node 0
