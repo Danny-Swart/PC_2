@@ -37,6 +37,9 @@ bin/%_mpi: src/mpi/%.c
 bin/%_cl: src/opencl/%.c bin/simple.o
 	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 $^ -o $@ -lOpenCL
 
+bin/stencil_cl: src/opencl/stencil.c bin/stencil_cl.o
+	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 $^ -o $@ -lOpenCL
+
 bin/simple.o: src/simple.c src/simple.h
 	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 -c $< -o $@ -lOpenCL
 
