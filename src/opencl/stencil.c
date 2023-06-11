@@ -29,7 +29,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     cl_int err;
     cl_kernel kernel;
 
-    size_t global[1] = {1024};
+    size_t global[1] = {n};
     size_t local[1] = {256};
 
     err = initGPU();
@@ -42,14 +42,15 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             DoubleArr, n, *out, 
             IntConst, n);
 
-    cl_mem inBuf = allocDev(sizeof(double) * n);
-    cl_mem outBuf = allocDev(sizeof(double) * n);
+    cl_mem inBuf = allocDev(sizeof(REAL) * n);
+    cl_mem outBuf = allocDev(sizeof(REAL) * n);
 
     host2devDoubleArr(*in, inBuf, n);
 
     for (int t = 0; t < iterations; t++) {
         // clSetKernelArg(kernel,0,n,inBuf);
         // clSetKernelArg(kernel,1,n,outBuf);
+        printf("in sha Allah werk je times %d\n", iterations);
         clSetKernelArg(kernel, 2, sizeof(int), &t);
         runKernel(kernel, 1, global, local);
 
@@ -60,11 +61,11 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             outBuf = temp;
         }
 
-        dev2hostDoubleArr(outBuf, *out, n);
-        printf("Contents of iteration %d:\n", t);
-        for (int i = 0; i < n; i ++) {
-            printf("index %d: %lf \n",i,*out[i]);
-        }
+        // dev2hostDoubleArr(outBuf, *out, n);
+        // printf("Contents of iteration %d:\n", t);
+        // for (int i = 0; i < n; i ++) {
+        //     printf("index %d: %lf \n",i,*out[i]);
+        // }
     }
 
     dev2hostDoubleArr(outBuf, *out, n);
