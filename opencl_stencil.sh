@@ -11,19 +11,14 @@ export XILINX_XRT=/opt/xilinx/xrt
 #Compile on the machine, not the head node
 make bin/stencil_cl
 
-bin/stencil_cl 1250 10 >> results/stencil.txt
-bin/stencil_cl 1250 10 >> results/stencil.txt
-bin/stencil_cl 1250 10 >> results/stencil.txt
-bin/stencil_cl 1250 10 >> results/stencil.txt
-bin/stencil_cl 1250 10 >> results/stencil.txt
-bin/stencil_cl 12500 10 >> results/stencil.txt
-bin/stencil_cl 12500 10 >> results/stencil.txt
-bin/stencil_cl 12500 10 >> results/stencil.txt
-bin/stencil_cl 12500 10 >> results/stencil.txt
-bin/stencil_cl 12500 10 >> results/stencil.txt
-bin/stencil_cl 125000 10 >> results/stencil.txt
-bin/stencil_cl 125000 10 >> results/stencil.txt
-bin/stencil_cl 125000 10 >> results/stencil.txt
-bin/stencil_cl 125000 10 >> results/stencil.txt
-bin/stencil_cl 125000 10 >> results/stencil.txt
+bin/stencil_cl 1250000 10 >> results/stencil.txt
+bin/stencil_cl 1250000 10 >> results/stencil.txt
+bin/stencil_cl 1250000 10 >> results/stencil.txt
+bin/stencil_cl 1250000 10 >> results/stencil.txt
+bin/stencil_cl 1250000 10 >> results/stencil.txt
+bin/stencil_cl 12500000 10 >> results/stencil.txt
+bin/stencil_cl 12500000 10 >> results/stencil.txt
+bin/stencil_cl 12500000 10 >> results/stencil.txt
+bin/stencil_cl 12500000 10 >> results/stencil.txt
+bin/stencil_cl 12500000 10 >> results/stencil.txt
 
