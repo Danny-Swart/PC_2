@@ -97,7 +97,7 @@ int main(int argc, char **argv)
 
     // probably wrong
     int count = atoi(argv[1]);
-    global[0] = count;
+    // global[0] = count;
 
     // creates context and command queue, chooses device and platform
     err = initGPU();
@@ -105,33 +105,34 @@ int main(int argc, char **argv)
     if(err == CL_SUCCESS) {
         // TODO: verander values
         global[0] = n;
-        local[0] = n;
+        local[0] = n/4;
         // count = 1024;
         
         printf("PRE LOOP\n");
-        // cl_kernel kernel;
-        // kernel = setupKernel(KernelSource, "stencil", 3, 
-        //     FloatArr, count, data, 
-        //     FloatArr, count-1, results, 
-        //     IntConst, count);
-        // for (int i = 0; i < iterations; i++) {
-            
-        //     // printf("POST KERNEL SETUP\n");
-        //     runKernel(kernel, 1, global, local);
-        //     if (i != iterations) { 
-        //       float *temp = data;
-        //       data = results;
-        //       results = temp;
-        //     }
-        // }
-
         cl_kernel kernel;
-        kernel = setupKernel(KernelSource, "stencil", 4, 
+        
+        for (int i = 0; i < iterations; i++) {
+            kernel = setupKernel(KernelSource, "stencil", 3, 
             FloatArr, count, data, 
             FloatArr, count-1, results, 
-            IntConst, count,
-            IntConst, iterations);
-        runKernel(kernel, 1, global, local);
+            IntConst, count);
+            // printf("POST KERNEL SETUP\n");
+            runKernel(kernel, 1, global, local);
+
+            if (i != iterations) { 
+              float *temp = data;
+              data = results;
+              results = temp;
+            } 
+        }
+
+        // cl_kernel kernel;
+        // kernel = setupKernel(KernelSource, "stencil", 4, 
+        //     FloatArr, count, data, 
+        //     FloatArr, count-1, results, 
+        //     IntConst, count,
+        //     IntConst, iterations);
+        // runKernel(kernel, 1, global, local);
     
         printf("Contents of results:\n");
         for (int i = 0; i < n; i ++) {
@@ -145,7 +146,7 @@ int main(int argc, char **argv)
 
         err = clReleaseKernel (kernel);
         err = freeDevice();
-  }
+  } 
 
     printf("%lf", duration,
             5.0 * (n - 2) * iterations / 1e9 / duration);
