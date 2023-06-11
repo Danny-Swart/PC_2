@@ -90,10 +90,10 @@ int main(int argc, char **argv)
     data = calloc(n, sizeof(float));
     data[0] = 100;
     data[n - 1] = 1000;
+    results = calloc(n, sizeof(float));
     results[0] = data[0];
     results[n - 1] = data[n - 1];
    
-    results = malloc(n * sizeof(float));
 
     // probably wrong
     int count = atoi(argv[1]);
