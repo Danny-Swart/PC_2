@@ -509,10 +509,6 @@ void printTransferTimes()
   printf( "total time spent in %d device to host transfers : %s\n", num_d2h, getTimeStr( d2h_time));
 }
 
-void printTotalTime() {
-  printf( "Total time spent: %s", getTimeStr(h2d_time+d2h_time+kernel_time))
-}
-
 cl_int freeDevice()
 {
   cl_int err;
