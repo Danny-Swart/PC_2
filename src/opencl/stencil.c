@@ -64,7 +64,8 @@ int main(int argc, char **argv)
 
     printf("START MAIN");
 
-    size_t n = atoll(argv[1]);
+    size_t n = 
+    atoll(argv[1]);
     int iterations = atoi(argv[2]);
 
     // REAL *in = calloc(n, sizeof(REAL));
@@ -86,6 +87,11 @@ int main(int argc, char **argv)
 
     float *data = NULL;                /* Original data set given to device.  */
     float *results = NULL;             /* Results returned from device.  */
+   
+    data = calloc(n, sizeof(float));
+    data[0] = 100;
+    data[n - 1] = 1000;
+   
     // probably wrong
     int count = atoi(argv[1]);
     global[0] = count;
@@ -97,7 +103,7 @@ int main(int argc, char **argv)
         // TODO: verander values
         size_t global[1] = {n};
         size_t local[1] = {2*n+1};
-        count = 1024;
+        // count = 1024;
 
 
         //   (*out)[0] = (*in)[0];
@@ -118,17 +124,23 @@ int main(int argc, char **argv)
         //           *out = temp;
         //       }
         // }
-        printf("PRE LOOP");
+        printf("PRE LOOP\n");
+        cl_kernel kernel;
         for (int i = 0; i < iterations; i++) {
-            cl_kernel kernel = setupKernel(KernelSource, "stencil", 3, FloatArr, count, data, FloatArr, count, results, IntConst, count);
+            kernel = setupKernel(KernelSource, "stencil", 3, 
+            FloatArr, count, data, 
+            FloatArr, count, results, 
+            IntConst, count);
+            printf("POST KERNEL SETUP\n");
             runKernel(kernel, 1, global, local);
-            if (i != iterations) {
+            
+            if (i != iterations) { 
               REAL *temp = data;
               data = results;
               results = temp;
             }
         }
-        printf("POST LOOP");
+        printf("POST LOOP\n");
 
         printf("%lf bruh %lf", results, count);
 

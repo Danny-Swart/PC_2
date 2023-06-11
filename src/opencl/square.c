@@ -65,9 +65,10 @@ int main (int argc, char * argv[])
   err = initGPUVerbose();
 
   if( err == CL_SUCCESS) {
-    kernel = setupKernel( KernelSource, "square", 3, FloatArr, count, data,
-                                                     FloatArr, count, results,
-                                                     IntConst, count);
+    kernel = setupKernel( KernelSource, "square", 3, 
+    FloatArr, count, data,                                               
+    FloatArr, count, results,
+    IntConst, count);
 
     runKernel( kernel, 1, global, local);
 
