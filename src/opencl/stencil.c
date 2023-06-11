@@ -81,7 +81,7 @@ int main(int argc, char **argv)
     char *KernelSource = readOpenCL("src/opencl/stencil.cl");
     // printf("AFTER READOPENCL");
     // only works for main ofc, no argv[1] here, possibly different argument
-    local[0] = atoi(argv[1]);
+    // local[0] = atoi(argv[1]);
 
     float *data = NULL;                /* Original data set given to device.  */
     float *results = NULL;             /* Results returned from device.  */
@@ -108,7 +108,7 @@ int main(int argc, char **argv)
         // count = 1024;
         
         // printf("PRE LOOP\n");
-        cl_kernel = kernel;
+        cl_kernel kernel;
         
         for (int i = 0; i < iterations; i++) {
             kernel = setupKernel(KernelSource, "stencil", 3, 
