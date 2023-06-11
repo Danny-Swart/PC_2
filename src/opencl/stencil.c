@@ -29,7 +29,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     cl_int err;
     cl_kernel kernel;
 
-    size_t global[1] = {n};
+    size_t global[1] = {1024};
     size_t local[1] = {256};
 
     err = initGPU();
@@ -50,7 +50,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     for (int t = 0; t < iterations; t++) {
         // clSetKernelArg(kernel,0,n,inBuf);
         // clSetKernelArg(kernel,1,n,outBuf);
-        printf("in sha Allah werk je times %d\n", iterations);
+        printf("in sha Allah werk je times %d\n", t);
         clSetKernelArg(kernel, 2, sizeof(int), &t);
         runKernel(kernel, 1, global, local);
 
@@ -96,7 +96,7 @@ int main(int argc, char **argv)
     REAL *in = calloc(n, sizeof(REAL));
     in[0] = 100;
     in[n - 1] = 1000;
-    REAL *out = malloc(n * sizeof(REAL));
+    REAL *out = calloc(n, sizeof(REAL));
     (out)[0] = (in)[0];
     (out)[n - 1] = (in)[n - 1];
 
