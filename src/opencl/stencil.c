@@ -56,6 +56,10 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
         // clSetKernelArg(kernel,1,n,outBuf);
         printf("in sha Allah werk je times %d\n", t);
         clSetKernelArg(kernel, 2, sizeof(int), &t);
+        if (err != CL_SUCCESS) {
+            fprintf(stderr, "failed to set kernel argument\n");
+            break;
+        }
         runKernel(kernel, 1, global, local);
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
