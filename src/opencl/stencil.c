@@ -64,8 +64,7 @@ int main(int argc, char **argv)
 
     printf("START MAIN");
 
-    size_t n = 
-    atoll(argv[1]);
+    size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
 
     // REAL *in = calloc(n, sizeof(REAL));
@@ -103,8 +102,8 @@ int main(int argc, char **argv)
 
     if(err == CL_SUCCESS) {
         // TODO: verander values
-        size_t global[1] = {n};
-        size_t local[1] = {2*n+1};
+        global[0] = n;
+        local[0] = n;
         // count = 1024;
 
 
