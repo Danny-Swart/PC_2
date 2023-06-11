@@ -34,13 +34,10 @@ bin/%_mpi: src/mpi/%.c
 	$(MPICC) $(FLAGS) $^ -o $@ $(LFLAGS)
 
 # The OpenCL flag must be after the target
-bin/%_cl: src/opencl/%.c bin/simple.o
+bin/%_cl: src/opencl/%.c bin/%.o
 	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 $^ -o $@ -lOpenCL
 
 bin/simple.o: src/simple.c src/simple.h
-	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 -c $< -o $@ -lOpenCL
-
-bruh: src/opencl/stencil.c bin/bruh.o
 	$(CC) $(FLAGS) -D CL_TARGET_OPENCL_VERSION=220 -c $< -o $@ -lOpenCL
 
 clean:
