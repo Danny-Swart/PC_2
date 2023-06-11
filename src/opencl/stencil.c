@@ -33,19 +33,19 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     size_t local[1] = {256};
 
     err = initGPU();
-    if(err != CL_SUCCESS) { return EXIT_FAILURE; }
+    if(err != CL_SUCCESS) { return; }
 
     char *KernelSource = readOpenCL("src/opencl/stencil.cl");
 
-    cl_kernel kernel = setupKernel(KernelSource, "stencil", 3, 
-            FloatArr, n, *in, 
-            FloatArr, n, *out, 
+    kernel = setupKernel(KernelSource, "stencil", 3, 
+            DoubleArr, n, *in, 
+            DoubleArr, n, *out, 
             IntConst, n);
 
     cl_mem inBuf = allocDev(sizeof(float) * n);
     cl_mem outBuf = allocDev(sizeof(float) * n);
 
-    host2devFloatArr(*in, inBuf, n);
+    host2devDoubleArr(*in, inBuf, n);
 
     for (int t = 0; t < iterations; t++) {
         // clSetKernelArg(kernel,0,n,inBuf);
@@ -58,16 +58,15 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             inBuf = outBuf;
             outBuf = temp;
         }
-        printf("hoi werk pls\n");
 
-        dev2hostFloatArr(outBuf, *out, n);
+        dev2hostDoubleArr(outBuf, *out, n);
         printf("Contents of iteration %d:\n", t);
         for (int i = 0; i < n; i ++) {
             printf("index %d: %lf \n",i,*out[i]);
         }
     }
 
-    dev2hostFloatArr(outBuf, *out, n);
+    dev2hostDoubleArr(outBuf, *out, n);
 
     printf("Contents of results:\n");
     for (int i = 0; i < n; i ++) {
