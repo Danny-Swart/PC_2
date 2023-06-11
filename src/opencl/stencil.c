@@ -62,7 +62,7 @@ int main(int argc, char **argv)
     int count = atoi(argv[1]);
 
     // creates context and command queue, chooses device and platform
-    err = initGPUVerbose();
+    err = initGPU();
 
     if(err == CL_SUCCESS) {
         global[0] = 512;
