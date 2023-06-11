@@ -94,16 +94,12 @@ int main(int argc, char **argv)
         //     printf("index %d: %lf \n",i,results[i]);
         // }
 
+        printf("n: %d iter: %d", n, iterations);
         printKernelTime();
         printTransferTimes();
 
         err = clReleaseKernel (kernel);
         err = freeDevice();
-
-         
-        double duration;
-        
-         printf("n:%d, iter:%d THE DURATION IS: %lf",n ,iterations ,duration);
 
   } 
     return EXIT_SUCCESS;
