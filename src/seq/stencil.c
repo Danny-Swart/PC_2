@@ -62,6 +62,11 @@ int main(int argc, char **argv)
     printf("%lf", duration,
             5.0 * (n - 2) * iterations / 1e9 / duration);
 
+    printf("Contents of results:\n");
+    for (int i = 0; i < n; i ++) {
+        printf("index %d: %lf \n",i,out[i]);
+    }
+
     free(in);
     free(out);
 

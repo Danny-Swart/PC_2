@@ -11,7 +11,8 @@ make bin/stencil_omp
 make clean -C util
 make -C util
 
-printf "P,mean,min,max\n" > results/stencil.csv
+
+# printf "P,mean,min,max\n" > results/stencil.csv
 
 for P in 1 2 4 8 16 32; do
     run=1
