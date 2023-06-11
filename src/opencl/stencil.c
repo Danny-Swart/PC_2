@@ -25,12 +25,15 @@ const REAL c = 0.3;
 
 void Stencil(REAL **in, REAL **out, size_t n, int iterations)
 {
-    
+    printf("Line 28\n");
     cl_int err;
     cl_kernel kernel;
 
-    size_t global[1] = {1024};
-    size_t local[1] = {256};
+    size_t global[1]; 
+    global[0] = 1024;
+    size_t local[1];
+    local[0] = 256;
+    printf("Line 36\n");
 
     err = initGPU();
     if(err != CL_SUCCESS) { return; }
@@ -93,16 +96,12 @@ int main(int argc, char **argv)
     size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
     
-    printf("pre in out creation");
-
     REAL *in = calloc(n, sizeof(REAL));
     in[0] = 100;
     in[n - 1] = 1000;
     REAL *out = calloc(n, sizeof(REAL));
     (out)[0] = (in)[0];
     (out)[n - 1] = (in)[n - 1];
-
-    printf("post in out creation");
 
     double duration;
     TIME(duration, Stencil(&in, &out, n, iterations););
