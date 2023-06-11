@@ -67,7 +67,7 @@ int main(int argc, char **argv)
     int count = atoi(argv[1]);
 
     // creates context and command queue, chooses device and platform
-    err = initGPUVerbose();
+    err = initGPU();
 
     if(err == CL_SUCCESS) {
         global[0] = 512;
@@ -102,10 +102,9 @@ int main(int argc, char **argv)
 
         gettimeofday(&tv2, NULL);   
         double duration;
-
         duration = (REAL) (tv2.tv_usec - tv1.tv_usec) / 1000000 +    \
          (REAL) (tv2.tv_sec - tv1.tv_sec);        
-         printf("THE DURATION IS: %lf", 5.0 * (n - 2) * iterations / 1e9 / duration);
+         printf("THE DURATION IS: %lf",duration);
                                     \
 
   } 
