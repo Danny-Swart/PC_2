@@ -62,26 +62,15 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    // printf("START MAIN");
-
     size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
 
-    // REAL *in = calloc(n, sizeof(REAL));
-    // in[0] = 100;
-    // in[n - 1] = 1000;
-    // REAL *out = malloc(n * sizeof(REAL));
-
-    // printf("BEFORE READOPENCL");
     cl_int err;
     cl_kernel kernel;
     size_t global[1];
     size_t local[1];
-    // TODO: write our own work-unit
+    
     char *KernelSource = readOpenCL("src/opencl/stencil.cl");
-    // printf("AFTER READOPENCL");
-    // only works for main ofc, no argv[1] here, possibly different argument
-    // local[0] = atoi(argv[1]);
 
     float *data = NULL;                /* Original data set given to device.  */
     float *results = NULL;             /* Results returned from device.  */
@@ -93,21 +82,15 @@ int main(int argc, char **argv)
     results[0] = data[0];
     results[n - 1] = data[n - 1];
    
-
-    // probably wrong
     int count = atoi(argv[1]);
-    // global[0] = count;
 
     // creates context and command queue, chooses device and platform
     err = initGPUVerbose();
 
     if(err == CL_SUCCESS) {
-        // TODO: verander values
         global[0] = 512;
         local[0] = 256;
-        // count = 1024;
         
-        // printf("PRE LOOP\n");
         cl_kernel kernel;
         
         for (int i = 0; i < iterations; i++) {
@@ -115,7 +98,6 @@ int main(int argc, char **argv)
             FloatArr, count, data, 
             FloatArr, count-1, results, 
             IntConst, count);
-            // printf("POST KERNEL SETUP\n");
             runKernel(kernel, 1, global, local);
 
             if (i != iterations) { 
@@ -125,35 +107,10 @@ int main(int argc, char **argv)
             } 
         }
 
-        // for (int i = 0; i < iterations; i++) {
-        //     kernel = setupKernel(KernelSource, "stencil", 3, 
-        //     FloatArr, count, data, 
-        //     FloatArr, count-1, results, 
-        //     IntConst, count);
-        //     // printf("POST KERNEL SETUP\n");
-        //     runKernel(kernel, 1, global, local);
-
-        //     if (i != iterations) { 
-        //       float *temp = data;
-        //       data = results;
-        //       results = temp;
-        //     } 
+        // printf("Contents of results:\n");
+        // for (int i = 0; i < n; i ++) {
+        //     printf("index %d: %lf \n",i,results[i]);
         // }
-
-        // cl_kernel kernel;
-        // kernel = setupKernel(KernelSource, "stencil", 4, 
-        //     FloatArr, count, data, 
-        //     FloatArr, count-1, results, 
-        //     IntConst, count,
-        //     IntConst, iterations);
-        // runKernel(kernel, 1, global, local);
-    
-        printf("Contents of results:\n");
-        for (int i = 0; i < n; i ++) {
-            printf("index %d: %lf \n",i,results[i]);
-        }
-
-        // printf("%lf bruh %lf", results, count);
 
         printKernelTime();
         printTransferTimes();
