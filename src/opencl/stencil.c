@@ -109,8 +109,8 @@ int main(int argc, char **argv)
         
         // printf("PRE LOOP\n");
         cl_kernel kernel = setupKernel(KernelSource, "stencil", 3, 
-            FloatArr, count, data, 
-            FloatArr, count, results, 
+            FloatArr, count, *data, 
+            FloatArr, count, *results, 
             IntConst, count);
         
         for (int i = 0; i < iterations; i++) {
@@ -149,16 +149,16 @@ int main(int argc, char **argv)
         //     IntConst, iterations);
         // runKernel(kernel, 1, global, local);
     
-        // printf("Contents of results:\n");
-        // for (int i = 0; i < n; i ++) {
-        //     printf("index %d: %lf \n",i,results[i]);
-        // }
+        printf("Contents of results:\n");
+        for (int i = 0; i < n; i ++) {
+            printf("index %d: %lf \n",i,results[i]);
+        }
 
         // printf("%lf bruh %lf", results, count);
 
         printKernelTime();
         printTransferTimes();
-
+        
         err = clReleaseKernel (kernel);
         err = freeDevice();
   } 
