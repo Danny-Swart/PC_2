@@ -113,7 +113,7 @@ int main(int argc, char **argv)
         for (int i = 0; i < iterations; i++) {
             kernel = setupKernel(KernelSource, "stencil", 3, 
             FloatArr, count, data, 
-            FloatArr, count, results, 
+            FloatArr, count-1, results, 
             IntConst, count);
             // printf("POST KERNEL SETUP\n");
             runKernel(kernel, 1, global, local);
