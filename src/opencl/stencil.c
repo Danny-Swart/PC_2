@@ -60,12 +60,12 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
         }
     }
 
+    dev2hostFloatArr(outBuf, *out, n);
+
     printf("Contents of results:\n");
     for (int i = 0; i < n; i ++) {
         printf("index %d: %lf \n",i,*out[i]);
     }
-
-    dev2hostFloatArr(outBuf, *out, n);
 
     printKernelTime();
     printTransferTimes();
