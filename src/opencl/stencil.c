@@ -96,13 +96,14 @@ int main(int argc, char **argv)
 
         printKernelTime();
         printTransferTimes();
-        
+        printTotalTime(); //function made by ourselves for total time
+
         err = clReleaseKernel (kernel);
         err = freeDevice();
 
          
         double duration;
-        duration = (REAL) (tv2.tv_sec - tv1.tv_sec);        
+        duration = (REAL) (tv2.tv_sec - tv1.tv_sec);
          printf("THE DURATION IS: %lf",duration);
 
   } 
