@@ -54,7 +54,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     for (int t = 0; t < iterations; t++) {
         // clSetKernelArg(kernel,0,n,inBuf);
         // clSetKernelArg(kernel,1,n,outBuf);
-        printf("in sha Allah werk je times %d\n", t);
+        
         clSetKernelArg(kernel, 2, sizeof(int), &t);
         if (err != CL_SUCCESS) {
             fprintf(stderr, "failed to set kernel argument\n");
@@ -68,12 +68,16 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             inBuf = outBuf;
             outBuf = temp;
         }
+        printf("beforedev2");
+        dev2hostDoubleArr(outBuf, *out, n);
+        printf("afterdev2");
 
-        // dev2hostDoubleArr(outBuf, *out, n);
-        // printf("Contents of iteration %d:\n", t);
-        // for (int i = 0; i < n; i ++) {
-        //     printf("index %d: %lf \n",i,*out[i]);
-        // }
+        printf("Contents of iteration %d:\n", t);
+        for (int i = 0; i < n; i ++) {
+            printf("index %d: %lf \n",i,*out[i]);
+        }
+        printf("after for");
+
     }
 
     dev2hostDoubleArr(outBuf, *out, n);
