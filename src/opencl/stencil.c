@@ -35,8 +35,9 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     local[0] = 256;
     printf("Line 36\n");
 
-    err = initGPU();
-    if(err != CL_SUCCESS) { return; }
+    initGPU();
+    // if(err != CL_SUCCESS) { return; }
+    printf("Bruh...");
 
     char *KernelSource = readOpenCL("src/opencl/stencil.cl");
     printf("PRE SETUP?\n");
