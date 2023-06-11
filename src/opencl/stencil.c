@@ -83,9 +83,9 @@ int main(int argc, char **argv)
     // only works for main ofc, no argv[1] here, possibly different argument
     local[0] = atoi(argv[1]);
 
-    float *data = NULL;                /* Original data set given to device.  */
-    float *results = NULL;             /* Results returned from device.  */
-   
+    float **data = NULL;                /* Original data set given to device.  */
+    float **results = NULL;             /* Results returned from device.  */
+    
     data = calloc(n, sizeof(float));
     data[0] = 100;
     data[n - 1] = 1000;
