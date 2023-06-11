@@ -50,6 +50,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     for (int t = 0; t < iterations; t++) {
         // clSetKernelArg(kernel,0,n,inBuf);
         // clSetKernelArg(kernel,1,n,outBuf);
+        clSetKernelArg(kernel, 2, sizeof(int), &t);
         runKernel(kernel, 1, global, local);
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
