@@ -36,12 +36,12 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     if(err != CL_SUCCESS) { return; }
 
     char *KernelSource = readOpenCL("src/opencl/stencil.cl");
-
+    printf("PRE SETUP?\n");
     kernel = setupKernel(KernelSource, "stencil", 3, 
             DoubleArr, n, *in, 
             DoubleArr, n, *out, 
             IntConst, n);
-
+    printf("POST SETUP?\n");
     cl_mem inBuf = allocDev(sizeof(REAL) * n);
     cl_mem outBuf = allocDev(sizeof(REAL) * n);
 
@@ -92,6 +92,8 @@ int main(int argc, char **argv)
 
     size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
+    
+    printf("pre in out creation");
 
     REAL *in = calloc(n, sizeof(REAL));
     in[0] = 100;
@@ -100,6 +102,7 @@ int main(int argc, char **argv)
     (out)[0] = (in)[0];
     (out)[n - 1] = (in)[n - 1];
 
+    printf("post in out creation");
 
     double duration;
     TIME(duration, Stencil(&in, &out, n, iterations););
