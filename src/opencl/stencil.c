@@ -110,20 +110,21 @@ int main(int argc, char **argv)
         
         // printf("PRE LOOP\n");
         cl_kernel kernel;
-        for (int i = 0; i < iterations; i++) {
-            kernel = setupKernel(KernelSource, "stencil", 3, 
+        kernel = setupKernel(KernelSource, "stencil", 3, 
             FloatArr, count, data, 
             FloatArr, count-1, results, 
             IntConst, count);
+        for (int i = 0; i < iterations; i++) {
+            
             // printf("POST KERNEL SETUP\n");
             runKernel(kernel, 1, global, local);
             
             if (i != iterations) { 
-              REAL *temp = data;
+              float *temp = data;
               data = results;
               results = temp;
             }
-            err = clReleaseKernel (kernel);
+            // err = clReleaseKernel (kernel);
         }
         printf("Contents of results:\n");
         for (int i = 0; i < n; i ++) {
