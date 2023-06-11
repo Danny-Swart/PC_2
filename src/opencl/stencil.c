@@ -16,6 +16,9 @@ const REAL a = 0.1;
 const REAL b = 0.2;
 const REAL c = 0.3;
 
+struct timeval tv1, tv2;                                       \
+
+
 void printTimeElapsed( char *text)
 {
   double elapsed = (stop.tv_sec -start.tv_sec)*1000.0
@@ -38,6 +41,8 @@ int main(int argc, char **argv)
         printf("Please specify 2 arguments (n, iterations).\n");
         return EXIT_FAILURE;
     }
+
+    gettimeofday(&tv1, NULL);                                      \
 
     size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
@@ -62,7 +67,7 @@ int main(int argc, char **argv)
     int count = atoi(argv[1]);
 
     // creates context and command queue, chooses device and platform
-    err = initGPU();
+    err = initGPUVerbose();
 
     if(err == CL_SUCCESS) {
         global[0] = 512;
@@ -94,6 +99,15 @@ int main(int argc, char **argv)
         
         err = clReleaseKernel (kernel);
         err = freeDevice();
+
+        gettimeofday(&tv2, NULL);   
+        double duration;
+
+        duration = (REAL) (tv2.tv_usec - tv1.tv_usec) / 1000000 +    \
+         (REAL) (tv2.tv_sec - tv1.tv_sec);        
+         printf("THE DURATION IS: %lf", 5.0 * (n - 2) * iterations / 1e9 / duration);
+                                    \
+
   } 
     return EXIT_SUCCESS;
 }
