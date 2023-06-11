@@ -92,6 +92,8 @@ int main(int argc, char **argv)
     data[0] = 100;
     data[n - 1] = 1000;
    
+    results = malloc(n * sizeof(float));
+
     // probably wrong
     int count = atoi(argv[1]);
     global[0] = count;
