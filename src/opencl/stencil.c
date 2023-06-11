@@ -79,7 +79,7 @@ int main(int argc, char **argv)
     size_t global[1];
     size_t local[1];
     // TODO: write our own work-unit
-    char *KernelSource = readOpenCL("stencil.cl");
+    char *KernelSource = readOpenCL("src/opencl/stencil.cl");
     printf("AFTER READOPENCL");
     // only works for main ofc, no argv[1] here, possibly different argument
     local[0] = atoi(argv[1]);
