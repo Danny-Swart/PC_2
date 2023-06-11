@@ -128,7 +128,7 @@ int main(int argc, char **argv)
             }
         }
 
-        print(results, count);
+        printf("%lf bruh %lf", results, count);
 
         printKernelTime();
         printTransferTimes();
