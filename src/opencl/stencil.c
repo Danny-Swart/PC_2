@@ -72,7 +72,6 @@ int main(int argc, char **argv)
     // in[n - 1] = 1000;
     // REAL *out = malloc(n * sizeof(REAL));
 
-    double duration;
     // printf("BEFORE READOPENCL");
     cl_int err;
     cl_kernel kernel;
@@ -100,11 +99,11 @@ int main(int argc, char **argv)
     // global[0] = count;
 
     // creates context and command queue, chooses device and platform
-    err = initGPU();
+    err = initGPUVerbose();
 
     if(err == CL_SUCCESS) {
         // TODO: verander values
-        global[0] = 1024;
+        global[0] = 512;
         local[0] = 256;
         // count = 1024;
         
@@ -147,9 +146,5 @@ int main(int argc, char **argv)
         err = clReleaseKernel (kernel);
         err = freeDevice();
   } 
-
-    printf("%lf", duration,
-            5.0 * (n - 2) * iterations / 1e9 / duration);
-
     return EXIT_SUCCESS;
 }

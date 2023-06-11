@@ -76,7 +76,7 @@ char *getTimeStr( double time)
   } else if (time >=1000) {
     snprintf( buf, 49, "%d sec %.1f msec", sec, msec);
   } else {
-    snprintf( buf, 49, "%.1f msec", msec);
+    snprintf( buf, 49, "%lf msec", msec);
   }
   return buf;
 }
