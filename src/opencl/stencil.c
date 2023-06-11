@@ -42,8 +42,8 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             DoubleArr, n, *out, 
             IntConst, n);
 
-    cl_mem inBuf = allocDev(sizeof(REAL) * n);
-    cl_mem outBuf = allocDev(sizeof(REAL) * n);
+    cl_mem inBuf = allocDev(sizeof(double) * n);
+    cl_mem outBuf = allocDev(sizeof(double) * n);
 
     host2devDoubleArr(*in, inBuf, n);
 
