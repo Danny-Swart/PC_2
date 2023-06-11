@@ -25,63 +25,72 @@ const REAL c = 0.3;
 
 void Stencil(REAL **in, REAL **out, size_t n, int iterations)
 {
-    cl_int err; // can be used for error checking
-    cl_kernel kernel; // the actual kernel that will be initialized
-    cl_mem inBuf, outBuf; // the input and output buffer
+    printf("Line 28\n");
+    cl_int err;
+    cl_kernel kernel;
+    cl_mem inBuf, outBuf;
 
-    err = initGPU();
-    if (err != CL_SUCCESS) {
-        fprintf(stderr, "failed to initialize OpenCL environment\n");
-        return;
-    }
+    size_t global[1] = {1024}; 
+    // global[0] = 1024;
+    size_t local[1] = {256};
+    // local[0] = 256;
+    printf("Line 36\n");
 
-    // allocate device memory for input and output buffers
-    inBuf = allocDev(n * sizeof(REAL));
-    outBuf = allocDev(n * sizeof(REAL));
+    err = initGPUVerbose();
+    // if(err != CL_SUCCESS) { return; }
+    printf("Bruh...");
 
-    // transfer input data from host to device
+    char *KernelSource = readOpenCL("src/opencl/stencil.cl");
+    printf("PRE SETUP?\n");
+    kernel = setupKernel(KernelSource, "stencil", 3, 
+            DoubleArr, n, *in, 
+            DoubleArr, n, *out, 
+            IntConst, n);
+    printf("POST SETUP?\n");
+    cl_mem inBuf = allocDev((sizeof(REAL)) * n);
+    cl_mem outBuf = allocDev((sizeof(REAL)) * n);
+
     host2devDoubleArr(*in, inBuf, n);
 
-    // create and set up the OpenCL kernel
-    kernel = setupKernel(readOpenCL("src/opencl/stencil.cl"), "stencil", 3,
-                         DoubleArr, n, *in,
-                         DoubleArr, n, *out,
-                         IntConst, n);
-    if (kernel == NULL) {
-        fprintf(stderr, "failed to create OpenCL kernel\n");
-        return;
-    }
-
-    size_t global[1] = {n}; // set the global size to n
-
-    // workgroup size
-    size_t local[1] = {256};
-
     for (int t = 0; t < iterations; t++) {
-        // set the iteration number as a constant kernel argument
-        err = clSetKernelArg(kernel, 2, sizeof(int), &t);
+        // clSetKernelArg(kernel,0,n,inBuf);
+        // clSetKernelArg(kernel,1,n,outBuf);
+        
+        clSetKernelArg(kernel, 2, sizeof(int), &t);
         if (err != CL_SUCCESS) {
             fprintf(stderr, "failed to set kernel argument\n");
             break;
         }
-
         err = launchKernel(kernel, 1, global, local);
-        if (err != CL_SUCCESS) {
-            fprintf(stderr, "failed to launch OpenCL kernel\n");
-            break;
-        }
 
-        // swap the input and output buffers
-        cl_mem temp = inBuf;
-        inBuf = outBuf;
-        outBuf = temp;
+        /* The output of this iteration is the input of the next iteration (if there is one). */
+        if (t != iterations) {
+            cl_mem temp = inBuf;
+            inBuf = outBuf;
+            outBuf = temp;
+        }
+        
+        dev2hostDoubleArr(outBuf, *out, n);
+        // for (int i = 0; i < n; i ++) {
+        //     printf("index %d: %lf \n",i,*out[i]);
+        // }
+        printf("iteration %d :", t);
+
     }
 
-    // transfer the final output from device to host
     dev2hostDoubleArr(outBuf, *out, n);
 
-    clReleaseKernel(kernel);
-    freeDevice();
+    printf("Contents of results:\n");
+    for (int i = 0; i < n; i ++) {
+        printf("index %d: %lf \n",i,*out[i]);
+    }
+
+    printKernelTime();
+    printTransferTimes();
+    
+    err = clReleaseKernel (kernel);
+    err = freeDevice();
+    
 }
 
 int main(int argc, char **argv)
