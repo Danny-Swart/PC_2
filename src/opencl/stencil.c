@@ -48,8 +48,8 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     host2devFloatArr(*in, inBuf, n);
 
     for (int t = 0; t < iterations; t++) {
-        clSetKernelArg(kernel,0,n,inBuf);
-        clSetKernelArg(kernel,1,n,outBuf);
+        // clSetKernelArg(kernel,0,n,inBuf);
+        // clSetKernelArg(kernel,1,n,outBuf);
         launchKernel(kernel, 1, global, local);
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
@@ -58,6 +58,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             inBuf = outBuf;
             outBuf = temp;
         }
+        printf("hoi werk pls\n");
 
         dev2hostFloatArr(outBuf, *out, n);
         printf("Contents of iteration %d:\n", t);
