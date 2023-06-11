@@ -52,9 +52,9 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
         if (t != iterations) {
-            // cl_mem temp = inBuf;
+            cl_mem temp = inBuf;
             inBuf = outBuf;
-            // outBuf = temp;
+            outBuf = temp;
         }
     }
 
