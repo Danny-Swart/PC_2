@@ -109,23 +109,30 @@ int main(int argc, char **argv)
         // count = 1024;
         
         // printf("PRE LOOP\n");
+        // cl_kernel kernel;
+        // kernel = setupKernel(KernelSource, "stencil", 3, 
+        //     FloatArr, count, data, 
+        //     FloatArr, count-1, results, 
+        //     IntConst, count);
+        // for (int i = 0; i < iterations; i++) {
+            
+        //     // printf("POST KERNEL SETUP\n");
+        //     runKernel(kernel, 1, global, local);
+            
+        //     if (i != iterations) { 
+        //       float *temp = data;
+        //       data = results;
+        //       results = temp;
+        //     }
+
         cl_kernel kernel;
         kernel = setupKernel(KernelSource, "stencil", 3, 
             FloatArr, count, data, 
             FloatArr, count-1, results, 
-            IntConst, count);
-        for (int i = 0; i < iterations; i++) {
-            
-            // printf("POST KERNEL SETUP\n");
-            runKernel(kernel, 1, global, local);
-            
-            if (i != iterations) { 
-              float *temp = data;
-              data = results;
-              results = temp;
-            }
-            // err = clReleaseKernel (kernel);
-        }
+            IntConst, count,
+            IntConst, iterations);
+        runKernel(kernel, 1, global, local);
+
         printf("Contents of results:\n");
         for (int i = 0; i < n; i ++) {
             printf("index %d: %lf \n",i,results[i]);

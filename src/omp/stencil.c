@@ -7,15 +7,7 @@
 #define REAL double
 
 /* You may need a different method of timing if you are not on Linux. */
-#define TIME(duration, fncalls)                                        \
-    do {                                                               \
-        struct timeval tv1, tv2;                                       \
-        gettimeofday(&tv1, NULL);                                      \
-        fncalls                                                        \
-        gettimeofday(&tv2, NULL);                                      \
-        duration = (REAL) (tv2.tv_usec - tv1.tv_usec) / 1000000 +    \
-         (REAL) (tv2.tv_sec - tv1.tv_sec);                           \
-    } while (0)
+
 
 const REAL a = 0.1;
 const REAL b = 0.2;
