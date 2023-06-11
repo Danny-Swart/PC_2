@@ -123,6 +123,7 @@ int main(int argc, char **argv)
               data = results;
               results = temp;
             }
+            err = clReleaseKernel (kernel);
         }
         printf("Contents of results:\n");
         for (int i = 0; i < n; i ++) {
