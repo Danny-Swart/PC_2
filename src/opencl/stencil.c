@@ -16,29 +16,6 @@ const REAL a = 0.1;
 const REAL b = 0.2;
 const REAL c = 0.3;
 
-// void Stencil(REAL **in, REAL **out, size_t n, int iterations)
-// {
-
-//     (*out)[0] = (*in)[0];
-//     (*out)[n - 1] = (*in)[n - 1];
-
-//     for (int t = 1; t <= iterations; t++) {
-//         /* Update only the inner values. */
-//         for (int i = 1; i < n - 1; i++) {
-//             (*out)[i] = a * (*in)[i - 1] +
-//                         b * (*in)[i] +
-//                         c * (*in)[i + 1];
-//         }
-
-//         /* The output of this iteration is the input of the next iteration (if there is one). */
-//         if (t != iterations) {
-//             REAL *temp = *in;
-//             *in = *out;
-//             *out = temp;
-//         }
-//     }
-// }
-
 void printTimeElapsed( char *text)
 {
   double elapsed = (stop.tv_sec -start.tv_sec)*1000.0
