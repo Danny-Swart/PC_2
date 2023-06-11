@@ -1,4 +1,3 @@
-// TODO: check arguments + write computation per iteration
 __kernel void stencil(
    __global float* input,
    __global float* output,

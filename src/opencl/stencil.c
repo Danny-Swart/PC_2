@@ -86,11 +86,11 @@ int main(int argc, char **argv)
     float *results = NULL;             /* Results returned from device.  */
     
     // probably wrong
-    int count = argv[1];
+    int count = atoi(argv[1]);
     global[0] = count;
 
     // creates context and command queue, chooses device and platform
-    cl_int err = initGPUVerbose();
+    err = initGPUVerbose();
 
     if(err == CL_SUCCESS) {
         // TODO: verander values
