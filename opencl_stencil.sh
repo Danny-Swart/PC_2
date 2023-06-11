@@ -11,4 +11,38 @@ export XILINX_XRT=/opt/xilinx/xrt
 #Compile on the machine, not the head node
 make bin/stencil_cl
 
-bin/stencil_cl 10 100 > results/stencil.txt
+bin/stencil_cl 125 1 >> results/stencil.txt
+bin/stencil_cl 125 1 >> results/stencil.txt
+bin/stencil_cl 125 1 >> results/stencil.txt
+bin/stencil_cl 125 1 >> results/stencil.txt
+bin/stencil_cl 125 1 >> results/stencil.txt
+bin/stencil_cl 125 10 >> results/stencil.txt
+bin/stencil_cl 125 10 >> results/stencil.txt
+bin/stencil_cl 125 10 >> results/stencil.txt
+bin/stencil_cl 125 10 >> results/stencil.txt
+bin/stencil_cl 125 10 >> results/stencil.txt
+bin/stencil_cl 125 100 >> results/stencil.txt
+bin/stencil_cl 125 100 >> results/stencil.txt
+bin/stencil_cl 125 100 >> results/stencil.txt
+bin/stencil_cl 125 100 >> results/stencil.txt
+bin/stencil_cl 125 100 >> results/stencil.txt
+bin/stencil_cl 125 1000 >> results/stencil.txt
+bin/stencil_cl 125 1000 >> results/stencil.txt
+bin/stencil_cl 125 1000 >> results/stencil.txt
+bin/stencil_cl 125 1000 >> results/stencil.txt
+bin/stencil_cl 125 1000 >> results/stencil.txt
+bin/stencil_cl 125 10000 >> results/stencil.txt
+bin/stencil_cl 125 10000 >> results/stencil.txt
+bin/stencil_cl 125 10000 >> results/stencil.txt
+bin/stencil_cl 125 10000 >> results/stencil.txt
+bin/stencil_cl 125 10000 >> results/stencil.txt
+bin/stencil_cl 125 100000 >> results/stencil.txt
+bin/stencil_cl 125 100000 >> results/stencil.txt
+bin/stencil_cl 125 100000 >> results/stencil.txt
+bin/stencil_cl 125 100000 >> results/stencil.txt
+bin/stencil_cl 125 100000 >> results/stencil.txt
+bin/stencil_cl 125 1000000 >> results/stencil.txt
+bin/stencil_cl 125 1000000 >> results/stencil.txt
+bin/stencil_cl 125 1000000 >> results/stencil.txt
+bin/stencil_cl 125 1000000 >> results/stencil.txt
+bin/stencil_cl 125 1000000 >> results/stencil.txt
