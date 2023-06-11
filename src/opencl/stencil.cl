@@ -5,7 +5,7 @@ __kernel void stencil(
 {
    
    int i = get_global_id(0);
-   if (i > 0 && i < get_global_size(0) - 1) {
+   if (i > 0 && i < count) {
       const float a = 0.1;
       const float b = 0.2;
       const float c = 0.3;
