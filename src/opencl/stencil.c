@@ -25,6 +25,7 @@ const REAL c = 0.3;
 
 void Stencil(REAL **in, REAL **out, size_t n, int iterations)
 {
+    
     cl_int err;
     cl_kernel kernel;
 
@@ -41,17 +42,19 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             FloatArr, n, *out, 
             IntConst, n);
 
+    cl_mem inBuf = allocDev(sizeof(float) * n);
+    cl_mem outBuf = allocDev(sizeof(float) * n);
+
+    host2devFloatArr(*in, inBuf, n);
 
     for (int t = 0; t < iterations; t++) {
-        clSetKernelArg(kernel,0,n,*in);
-        clSetKernelArg(kernel,1,n,*out);
-        launchKernel(kernel, 1, global, local);
+        runKernel(kernel, 1, global, local);
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
         if (t != iterations) {
-            REAL *temp = *in;
-            *in = *out;
-            *out = temp;
+            // cl_mem temp = inBuf;
+            inBuf = outBuf;
+            // outBuf = temp;
         }
     }
 
@@ -60,12 +63,13 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
         printf("index %d: %lf \n",i,*out[i]);
     }
 
+    dev2hostFloatArr(outBuf, *out, n);
+
     printKernelTime();
     printTransferTimes();
     
     err = clReleaseKernel (kernel);
     err = freeDevice();
-
     
 }
 
