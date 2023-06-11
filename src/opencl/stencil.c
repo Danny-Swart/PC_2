@@ -94,7 +94,7 @@ int main(int argc, char **argv)
         //     printf("index %d: %lf \n",i,results[i]);
         // }
 
-        printf("n: %d iter: %d", n, iterations);
+        printf("n: %d iter: %d\n", n, iterations);
         printKernelTime();
         printTransferTimes();
 
