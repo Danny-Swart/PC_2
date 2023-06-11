@@ -57,13 +57,12 @@ void timeDirectImplementation( int count, float* data, float* results)
 
 int main(int argc, char **argv)
 {
-    printf("line 60");
     if (argc != 3) {
         printf("Please specify 2 arguments (n, iterations).\n");
         return EXIT_FAILURE;
     }
 
-    printf("line 65");
+    printf("START MAIN");
 
     size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
@@ -74,20 +73,19 @@ int main(int argc, char **argv)
     // REAL *out = malloc(n * sizeof(REAL));
 
     double duration;
-    printf("line 74");
+    printf("BEFORE READOPENCL");
     cl_int err;
     cl_kernel kernel;
     size_t global[1];
     size_t local[1];
     // TODO: write our own work-unit
-    char *KernelSource = readOpenCL( "stencil.cl");
-
+    char *KernelSource = readOpenCL("stencil.cl");
+    printf("AFTER READOPENCL");
     // only works for main ofc, no argv[1] here, possibly different argument
     local[0] = atoi(argv[1]);
 
     float *data = NULL;                /* Original data set given to device.  */
     float *results = NULL;             /* Results returned from device.  */
-    printf("line 87");
     // probably wrong
     int count = atoi(argv[1]);
     global[0] = count;
@@ -97,7 +95,6 @@ int main(int argc, char **argv)
 
     if(err == CL_SUCCESS) {
         // TODO: verander values
-        printf("line97");
         size_t global[1] = {n};
         size_t local[1] = {2*n+1};
         count = 1024;
@@ -121,7 +118,7 @@ int main(int argc, char **argv)
         //           *out = temp;
         //       }
         // }
-
+        printf("PRE LOOP");
         for (int i = 0; i < iterations; i++) {
             cl_kernel kernel = setupKernel(KernelSource, "stencil", 3, FloatArr, count, data, FloatArr, count, results, IntConst, count);
             runKernel(kernel, 1, global, local);
@@ -131,6 +128,7 @@ int main(int argc, char **argv)
               results = temp;
             }
         }
+        printf("POST LOOP");
 
         printf("%lf bruh %lf", results, count);
 
