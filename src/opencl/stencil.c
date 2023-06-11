@@ -88,7 +88,7 @@ int main(int argc, char **argv)
               results = temp;
             } 
         }
-
+        gettimeofday(&tv2, NULL);  
         // printf("Contents of results:\n");
         // for (int i = 0; i < n; i ++) {
         //     printf("index %d: %lf \n",i,results[i]);
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
         err = clReleaseKernel (kernel);
         err = freeDevice();
 
-        gettimeofday(&tv2, NULL);   
+         
         double duration;
         duration = (REAL) (tv2.tv_usec - tv1.tv_usec) / 1000000 +    \
          (REAL) (tv2.tv_sec - tv1.tv_sec);        
