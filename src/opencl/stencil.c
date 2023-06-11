@@ -35,7 +35,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     local[0] = 256;
     printf("Line 36\n");
 
-    initGPU();
+    err = initGPUVerbose();
     // if(err != CL_SUCCESS) { return; }
     printf("Bruh...");
 
