@@ -99,7 +99,7 @@ int main(int argc, char **argv)
     // global[0] = count;
 
     // creates context and command queue, chooses device and platform
-    err = initGPUVerbose();
+    err = initGPU();
 
     if(err == CL_SUCCESS) {
         // TODO: verander values
@@ -108,15 +108,16 @@ int main(int argc, char **argv)
         // count = 1024;
         
         // printf("PRE LOOP\n");
-        cl_kernel kernel;
+        cl_kernel kernel = setupKernel(KernelSource, "stencil", 3, 
+            FloatArr, count, data, 
+            FloatArr, count, results, 
+            IntConst, count);
         
         for (int i = 0; i < iterations; i++) {
-            kernel = setupKernel(KernelSource, "stencil", 3, 
-            FloatArr, count, data, 
-            FloatArr, count-1, results, 
-            IntConst, count);
             // printf("POST KERNEL SETUP\n");
-            runKernel(kernel, 1, global, local);
+            clSetKernelArg(kernel,0,count,&data);
+            clSetKernelArg(kernel,1,count,&results);
+            launchKernel(kernel, 1, global, local);
 
             if (i != iterations) { 
               float *temp = data;
@@ -124,6 +125,21 @@ int main(int argc, char **argv)
               results = temp;
             } 
         }
+
+        // for (int i = 0; i < iterations; i++) {
+        //     kernel = setupKernel(KernelSource, "stencil", 3, 
+        //     FloatArr, count, data, 
+        //     FloatArr, count-1, results, 
+        //     IntConst, count);
+        //     // printf("POST KERNEL SETUP\n");
+        //     runKernel(kernel, 1, global, local);
+
+        //     if (i != iterations) { 
+        //       float *temp = data;
+        //       data = results;
+        //       results = temp;
+        //     } 
+        // }
 
         // cl_kernel kernel;
         // kernel = setupKernel(KernelSource, "stencil", 4, 
