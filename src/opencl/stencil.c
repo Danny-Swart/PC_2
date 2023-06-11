@@ -102,10 +102,8 @@ int main(int argc, char **argv)
 
          
         double duration;
-        duration = (REAL) (tv2.tv_usec - tv1.tv_usec) / 1000000 +    \
-         (REAL) (tv2.tv_sec - tv1.tv_sec);        
+        duration = (REAL) (tv2.tv_sec - tv1.tv_sec);        
          printf("THE DURATION IS: %lf",duration);
-                                    \
 
   } 
     return EXIT_SUCCESS;
