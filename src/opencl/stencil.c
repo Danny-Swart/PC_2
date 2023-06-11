@@ -62,7 +62,7 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    printf("START MAIN");
+    // printf("START MAIN");
 
     size_t n = atoll(argv[1]);
     int iterations = atoi(argv[2]);
@@ -73,14 +73,14 @@ int main(int argc, char **argv)
     // REAL *out = malloc(n * sizeof(REAL));
 
     double duration;
-    printf("BEFORE READOPENCL");
+    // printf("BEFORE READOPENCL");
     cl_int err;
     cl_kernel kernel;
     size_t global[1];
     size_t local[1];
     // TODO: write our own work-unit
     char *KernelSource = readOpenCL("src/opencl/stencil.cl");
-    printf("AFTER READOPENCL");
+    // printf("AFTER READOPENCL");
     // only works for main ofc, no argv[1] here, possibly different argument
     local[0] = atoi(argv[1]);
 
@@ -104,11 +104,11 @@ int main(int argc, char **argv)
 
     if(err == CL_SUCCESS) {
         // TODO: verander values
-        global[0] = n;
-        local[0] = n;
+        global[0] = 1024;
+        local[0] = 256;
         // count = 1024;
         
-        printf("PRE LOOP\n");
+        // printf("PRE LOOP\n");
         cl_kernel kernel;
         
         for (int i = 0; i < iterations; i++) {
@@ -134,10 +134,10 @@ int main(int argc, char **argv)
         //     IntConst, iterations);
         // runKernel(kernel, 1, global, local);
     
-        printf("Contents of results:\n");
-        for (int i = 0; i < n; i ++) {
-            printf("index %d: %lf \n",i,results[i]);
-        }
+        // printf("Contents of results:\n");
+        // for (int i = 0; i < n; i ++) {
+        //     printf("index %d: %lf \n",i,results[i]);
+        // }
 
         // printf("%lf bruh %lf", results, count);
 
