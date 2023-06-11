@@ -83,8 +83,8 @@ int main(int argc, char **argv)
     // only works for main ofc, no argv[1] here, possibly different argument
     local[0] = atoi(argv[1]);
 
-    float **data = NULL;                /* Original data set given to device.  */
-    float **results = NULL;             /* Results returned from device.  */
+    float *data = NULL;                /* Original data set given to device.  */
+    float *results = NULL;             /* Results returned from device.  */
     
     data = calloc(n, sizeof(float));
     data[0] = 100;
@@ -109,14 +109,14 @@ int main(int argc, char **argv)
         
         // printf("PRE LOOP\n");
         cl_kernel kernel = setupKernel(KernelSource, "stencil", 3, 
-            FloatArr, count, *data, 
-            FloatArr, count, *results, 
+            FloatArr, count, data, 
+            FloatArr, count, results, 
             IntConst, count);
         
         for (int i = 0; i < iterations; i++) {
             // printf("POST KERNEL SETUP\n");
-            clSetKernelArg(kernel,0,count,&data);
-            clSetKernelArg(kernel,1,count,&results);
+            clSetKernelArg(kernel,0,count,data);
+            clSetKernelArg(kernel,1,count,results);
             launchKernel(kernel, 1, global, local);
 
             if (i != iterations) { 
