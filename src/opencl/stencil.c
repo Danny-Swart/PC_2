@@ -16,28 +16,28 @@ const REAL a = 0.1;
 const REAL b = 0.2;
 const REAL c = 0.3;
 
-void Stencil(REAL **in, REAL **out, size_t n, int iterations)
-{
+// void Stencil(REAL **in, REAL **out, size_t n, int iterations)
+// {
 
-    (*out)[0] = (*in)[0];
-    (*out)[n - 1] = (*in)[n - 1];
+//     (*out)[0] = (*in)[0];
+//     (*out)[n - 1] = (*in)[n - 1];
 
-    for (int t = 1; t <= iterations; t++) {
-        /* Update only the inner values. */
-        for (int i = 1; i < n - 1; i++) {
-            (*out)[i] = a * (*in)[i - 1] +
-                        b * (*in)[i] +
-                        c * (*in)[i + 1];
-        }
+//     for (int t = 1; t <= iterations; t++) {
+//         /* Update only the inner values. */
+//         for (int i = 1; i < n - 1; i++) {
+//             (*out)[i] = a * (*in)[i - 1] +
+//                         b * (*in)[i] +
+//                         c * (*in)[i + 1];
+//         }
 
-        /* The output of this iteration is the input of the next iteration (if there is one). */
-        if (t != iterations) {
-            REAL *temp = *in;
-            *in = *out;
-            *out = temp;
-        }
-    }
-}
+//         /* The output of this iteration is the input of the next iteration (if there is one). */
+//         if (t != iterations) {
+//             REAL *temp = *in;
+//             *in = *out;
+//             *out = temp;
+//         }
+//     }
+// }
 
 void printTimeElapsed( char *text)
 {
@@ -90,6 +90,8 @@ int main(int argc, char **argv)
     data = calloc(n, sizeof(float));
     data[0] = 100;
     data[n - 1] = 1000;
+    results[0] = data[0];
+    results[n - 1] = data[n - 1];
    
     results = malloc(n * sizeof(float));
 
@@ -105,26 +107,7 @@ int main(int argc, char **argv)
         global[0] = n;
         local[0] = n;
         // count = 1024;
-
-
-        //   (*out)[0] = (*in)[0];
-        //   (*out)[n - 1] = (*in)[n - 1];
-
-        //   for (int t = 1; t <= iterations; t++) {
-        //       /* Update only the inner values. */
-        //       for (int i = 1; i < n - 1; i++) {
-        //           (*out)[i] = a * (*in)[i - 1] +
-        //                       b * (*in)[i] +
-        //                       c * (*in)[i + 1];
-        //       }
-
-        //       /* The output of this iteration is the input of the next iteration (if there is one). */
-        //       if (t != iterations) {
-        //           REAL *temp = *in;
-        //           *in = *out;
-        //           *out = temp;
-        //       }
-        // }
+        
         // printf("PRE LOOP\n");
         cl_kernel kernel;
         for (int i = 0; i < iterations; i++) {
@@ -132,7 +115,7 @@ int main(int argc, char **argv)
             FloatArr, count, data, 
             FloatArr, count, results, 
             IntConst, count);
-            // printf("POST KERNEL SETUP\n");
+            printf("POST KERNEL SETUP\n");
             runKernel(kernel, 1, global, local);
             
             if (i != iterations) { 
@@ -143,7 +126,7 @@ int main(int argc, char **argv)
         }
         printf("Contents of results:\n");
         for (int i = 0; i < n; i ++) {
-            printf("index %lf: %lf \n",i ,results[i]);
+            printf("index %d: %lf \n",i,results[i]);
         }
 
         // printf("%lf bruh %lf", results, count);
