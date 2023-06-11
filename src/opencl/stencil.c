@@ -141,7 +141,10 @@ int main(int argc, char **argv)
               results = temp;
             }
         }
-        // printf("POST LOOP\n");
+        printf("Contents of results:\n");
+        for (int i = 0; i < n; i ++) {
+            printf("index %lf: %lf \n",i ,results[i]);
+        }
 
         // printf("%lf bruh %lf", results, count);
 
