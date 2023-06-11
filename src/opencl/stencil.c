@@ -28,11 +28,12 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     printf("Line 28\n");
     cl_int err;
     cl_kernel kernel;
+    cl_mem inBuf, outBuf;
 
-    size_t global[1]; 
-    global[0] = 1024;
-    size_t local[1];
-    local[0] = 256;
+    size_t global[1] = {1024}; 
+    // global[0] = 1024;
+    size_t local[1] = {256};
+    // local[0] = 256;
     printf("Line 36\n");
 
     err = initGPUVerbose();
@@ -46,8 +47,8 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             DoubleArr, n, *out, 
             IntConst, n);
     printf("POST SETUP?\n");
-    cl_mem inBuf = allocDev(sizeof(REAL) * n);
-    cl_mem outBuf = allocDev(sizeof(REAL) * n);
+    cl_mem inBuf = allocDev((sizeof(REAL)) * n);
+    cl_mem outBuf = allocDev((sizeof(REAL)) * n);
 
     host2devDoubleArr(*in, inBuf, n);
 
@@ -60,7 +61,7 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             fprintf(stderr, "failed to set kernel argument\n");
             break;
         }
-        runKernel(kernel, 1, global, local);
+        err = launchKernel(kernel, 1, global, local);
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
         if (t != iterations) {
@@ -68,15 +69,12 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
             inBuf = outBuf;
             outBuf = temp;
         }
-        printf("beforedev2");
+        
         dev2hostDoubleArr(outBuf, *out, n);
-        printf("afterdev2");
-
-        // printf("Contents of iteration %d:\n", t);
         // for (int i = 0; i < n; i ++) {
         //     printf("index %d: %lf \n",i,*out[i]);
         // }
-        // printf("after for");
+        printf("iteration %d :", t);
 
     }
 
