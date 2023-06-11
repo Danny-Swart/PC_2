@@ -72,11 +72,11 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
         dev2hostDoubleArr(outBuf, *out, n);
         printf("afterdev2");
 
-        printf("Contents of iteration %d:\n", t);
-        for (int i = 0; i < n; i ++) {
-            printf("index %d: %lf \n",i,*out[i]);
-        }
-        printf("after for");
+        // printf("Contents of iteration %d:\n", t);
+        // for (int i = 0; i < n; i ++) {
+        //     printf("index %d: %lf \n",i,*out[i]);
+        // }
+        // printf("after for");
 
     }
 
