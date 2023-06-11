@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     if(err == CL_SUCCESS) {
         // TODO: verander values
         global[0] = n;
-        local[0] = n/4;
+        local[0] = n;
         // count = 1024;
         
         printf("PRE LOOP\n");
