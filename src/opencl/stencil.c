@@ -48,7 +48,8 @@ void Stencil(REAL **in, REAL **out, size_t n, int iterations)
     host2devFloatArr(*in, inBuf, n);
 
     for (int t = 0; t < iterations; t++) {
-        runKernel(kernel, 1, global, local);
+        err = clSetKernelArg(kernel, 2, sizeof(int), &t);
+        launchKernel(kernel, 1, global, local);
 
         /* The output of this iteration is the input of the next iteration (if there is one). */
         if (t != iterations) {
