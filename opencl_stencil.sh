@@ -9,6 +9,6 @@
 export XILINX_XRT=/opt/xilinx/xrt
 
 #Compile on the machine, not the head node
-make bin/stencil_cl
+make bin/stencil_cl $1 $2
 
 bin/stencil_cl > results/stencil.txt
